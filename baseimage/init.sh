@@ -13,6 +13,7 @@ gpgcheck=1
 repo_gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+sslverify=0
 EOF
 
 # SELinux is nice, but it doesn't work well with containers
@@ -51,3 +52,9 @@ EOF
 
 chmod aug-x /etc/systemd/system/kubelet.service
 chmod aug-x /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+for CERTFILE in $(ls -1 /vagrant/*.pem)
+do
+  echo "" >> /etc/pki/tls/certs/ca-bundle.crt
+  cat $CERTFILE >> /etc/pki/tls/certs/ca-bundle.crt
+done
