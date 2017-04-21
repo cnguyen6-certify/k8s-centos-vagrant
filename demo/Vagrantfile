@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "el7kube"
+  # config.vm.provider "virtualbox" do |vb|
+  #   vb.memory = "2048"
+  # end
+
+  config.vm.define "centos-master" do |web|
+    web.vm.network "private_network", ip: "192.168.33.10"
+    web.vm.hostname = "centos-master"
+    web.vm.provision "shell", path: "controller.sh"
+    web.vm.provider "virtualbox" do |vb|
+      vb.memory = "1536"
+    end
+  end
+
+  config.vm.define "centos-worker1" do |web|
+    web.vm.network "private_network", ip: "192.168.33.11"
+    web.vm.hostname = "centos-worker1"
+    web.vm.provision "shell", path: "worker.sh"
+    web.vm.provider "virtualbox" do |vb|
+      vb.memory = "3072"
+    end
+  end
+
+  # config.vm.define "centos-worker2" do |web|
+  #   web.vm.network "private_network", ip: "192.168.33.12"
+  #   web.vm.hostname = "centos-worker2"
+  #   web.vm.provision "shell", path: "worker.sh"
+  # end
+
+end

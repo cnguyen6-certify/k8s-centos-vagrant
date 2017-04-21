@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: default-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: hello.default.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-svc
+          servicePort: 80
+  - host: weave.default.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: weave-scope-app
+          servicePort: 80
